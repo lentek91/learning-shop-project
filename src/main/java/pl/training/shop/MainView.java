@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import pl.training.shop.orders.view.ShopCartView;
 import pl.training.shop.products.model.ProductService;
 import pl.training.shop.products.view.ProductsView;
+import pl.training.shop.view.AppHello;
 
 @Push
 @Route
@@ -33,6 +34,7 @@ public class MainView extends VerticalLayout implements BeforeLeaveObserver, Aft
     this.productService = productService;
     initButtons();
     add(productsCount);
+    add(new AppHello());
   }
 
   private void initButtons() {

@@ -6,7 +6,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -25,6 +24,7 @@ import pl.training.shop.view.CancelEvent;
 import pl.training.shop.view.DoubleToIntegerConverter;
 import pl.training.shop.view.MinLengthValidator;
 import pl.training.shop.view.SaveEvent;
+import pl.training.shop.view.ShopBottomMenu;
 
 @Log
 public class ProductForm extends FormLayout {
@@ -42,13 +42,12 @@ public class ProductForm extends FormLayout {
   private NumberField quantity = new NumberField();
   private ComboBox<ProductCategory> category = new ComboBox<>();
 
-  private HorizontalLayout buttonLayout = new HorizontalLayout();
-  private Button save = new Button();
-  private Button cancel = new Button();
+  private ShopBottomMenu shopBottomMenu;
 
   public ProductForm(Product product, List<ProductCategory> productCategories) {
     this.product = product;
     this.productCategories = productCategories;
+    this.shopBottomMenu = new ShopBottomMenu();
 
     initializeFields();
     initButtons();
@@ -87,15 +86,10 @@ public class ProductForm extends FormLayout {
   }
 
   private void initButtons() {
-    save.setText("Save");
-    cancel.setText("Cancel");
+    shopBottomMenu.addSaveListener(this::onSave);
+    shopBottomMenu.addCancelListener(this::onCancel);
 
-    buttonLayout.add(save, cancel);
-
-    save.addClickListener(this::onSave);
-    cancel.addClickListener(this::onCancel);
-
-    add(buttonLayout);
+    add(shopBottomMenu);
   }
 
   private void onSave(ClickEvent<Button> event) {
