@@ -8,9 +8,6 @@ class AppHello extends PolymerElement {
       <h2>Hello {{name}}</h2>
     `;
   }
-
-  sayHello() {
-  }
 }
 
 window.customElements.define('app-hello', AppHello);

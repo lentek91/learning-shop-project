@@ -1,5 +1,6 @@
 package pl.training.shop;
 
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,8 +8,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import pl.training.shop.products.model.Product;
 import pl.training.shop.products.model.ProductCategory;
 import pl.training.shop.products.model.ProductService;
-
-import java.util.Date;
+import pl.training.shop.users.model.User;
+import pl.training.shop.users.model.UserService;
 
 /**
  * The entry point of the Spring Boot application.
@@ -17,7 +18,13 @@ import java.util.Date;
 public class Application extends SpringBootServletInitializer {
 
     @Autowired
-    public Application(ProductService productService) {
+    public Application(ProductService productService, UserService userService) {
+        User user = new User();
+        user.setLogin("admin");
+        user.setPassword("admin1");
+        user.setEnabled(true);
+        userService.addNewUser(user);
+
         productService.addProductCategory(new ProductCategory("Warzywa"));
         productService.addProductCategory(new ProductCategory("Owoce"));
 

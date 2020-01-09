@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import pl.training.shop.orders.view.ShopCartView;
 import pl.training.shop.products.model.ProductService;
 import pl.training.shop.products.view.ProductsView;
+import pl.training.shop.users.model.SecureService;
+import pl.training.shop.users.view.LoginView;
 import pl.training.shop.view.AppHello;
 
 @Push
@@ -25,13 +27,15 @@ import pl.training.shop.view.AppHello;
 public class MainView extends VerticalLayout implements BeforeLeaveObserver, AfterNavigationObserver {
 
   private final ProductService productService;
+  private final SecureService secureService;
 
   private final HorizontalLayout buttonsLayout = new HorizontalLayout();
   private final Label productsCount = new Label();
   private Thread backgroundThread;
 
-  public MainView(ProductService productService) {
+  public MainView(ProductService productService, SecureService secureService) {
     this.productService = productService;
+    this.secureService = secureService;
     initButtons();
     add(productsCount);
     add(new AppHello());
@@ -40,11 +44,19 @@ public class MainView extends VerticalLayout implements BeforeLeaveObserver, Aft
   private void initButtons() {
     Button products = new Button(getTranslation("products"));
     Button shopCart = new Button(getTranslation("shopCart"));
+    Button logout = new Button("Logout");
+
     products.addClickListener(event -> UI.getCurrent().navigate(ProductsView.class));
     shopCart.addClickListener(event -> UI.getCurrent().navigate(ShopCartView.class));
+    logout.addClickListener(event -> onLogout());
 
-    buttonsLayout.add(products, shopCart);
+    buttonsLayout.add(products, shopCart, logout);
     add(buttonsLayout);
+  }
+
+  private void onLogout() {
+    secureService.logout();
+    UI.getCurrent().navigate(LoginView.class);
   }
 
   @Override
