@@ -7,12 +7,12 @@ import pl.training.shop.products.model.Product;
 
 public class ProductSelectedEvent extends ComponentEvent<Grid<Product>> {
 
-    @Getter
-    private final Product product;
+  @Getter
+  private final Product product;
 
-    public ProductSelectedEvent(Grid<Product> source, Product product) {
-        super(source, false);
+  public ProductSelectedEvent(Grid<Product> source, Product product) {
+    super(source, false);
 
-        this.product = product;
-    }
+    this.product = product;
+  }
 }
